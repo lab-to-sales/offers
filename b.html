@@ -37,21 +37,56 @@
   gtag('event', 'page_view', {
     'variant': 'b'
   });
-  
-  gtag('event', 'variant_view', { 'variant': 'b' });
 
-  // Track offer CTA clicks with variant attribution
   document.addEventListener('DOMContentLoaded', function() {
+    
+    // 1. DELAYED VARIANT VIEW: Fires after 5 seconds of active viewing 
+    // This establishes a clean baseline for a qualified visit.
+    setTimeout(function() {
+      gtag('event', 'variant_view', { 'variant': 'b' });
+    }, 5000);
+
+    // 2. HEARTBEAT TIMER: Fires at 15s, 30s, and 60s milestones
+    // Forces GA4 to lock in active engagement time at regular intervals.
+    [15000, 30000, 60000].forEach(function(delay) {
+      setTimeout(function() {
+        gtag('event', 'session_heartbeat', {
+          'time_milestone': (delay / 1000) + 's',
+          'variant': 'b'
+        });
+      }, delay);
+    });
+
+    // 3. SCROLL MILESTONE TRACKER: Fires at 25%, 50%, and 75% depth
+    var thresholds = [25, 50, 75];
+    var triggeredScrolls = [];
+
+    window.addEventListener('scroll', function() {
+      var scrollPct = Math.round((window.scrollY + window.innerHeight) / document.documentElement.scrollHeight * 100);
+      
+      thresholds.forEach(function(pct) {
+        if (scrollPct >= pct && !triggeredScrolls.includes(pct)) {
+          triggeredScrolls.push(pct);
+          gtag('event', 'landing_page_scroll', {
+            'scroll_depth': pct + '%',
+            'variant': 'b'
+          });
+        }
+      });
+    }, { passive: true });
+
+    // 4. Track offer CTA clicks with variant attribution
     document.querySelectorAll('.offer-cta').forEach(function(btn) {
       btn.addEventListener('click', function(e) {
         var offerTag = btn.closest('.offer-card').querySelector('.offer-tag');
         var offerLabel = offerTag ? offerTag.textContent.trim() : 'unknown';
         gtag('event', 'offer_cta_click', {
-          variant: 'b',
-          offer: offerLabel
+          'variant': 'b',
+          'offer': offerLabel
         });
       });
     });
+
   });
 </script>
 </script>
