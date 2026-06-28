@@ -28,8 +28,17 @@
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
-  gtag('config', 'G-1QEFE5YP35');
-  gtag('event', 'variant_view', { variant: 'b' });
+  // CORRECTION: Added send_page_view: false to stop the default double tracking
+  gtag('config', 'G-1QEFE5YP35', {
+    'send_page_view': false
+  });
+
+  // Manually send ONE page_view event packed with your variant data
+  gtag('event', 'page_view', {
+    'variant': 'b'
+  });
+  
+  gtag('event', 'variant_view', { 'variant': 'b' });
 
   // Track offer CTA clicks with variant attribution
   document.addEventListener('DOMContentLoaded', function() {
@@ -44,6 +53,7 @@
       });
     });
   });
+</script>
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
