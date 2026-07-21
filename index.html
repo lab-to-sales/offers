@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://lab-to-sales.github.io/offers/">
 <meta property="og:title" content="Lab to Sales — Training for Scientists in Commercial Roles">
-<meta property="og:description" content="A simple, question-based training for scientists and technical people in their first commercial role. 5 pillars. Two ways to work together.">
+<meta property="og:description" content="A simple, question-based training for scientists and technical people in their first commercial role. 5 pillars.">
 <meta property="og:image" content="https://lab-to-sales.github.io/offers/og-image.png">
 <meta property="og:image:width" content="1280">
 <meta property="og:image:height" content="720">
@@ -18,7 +18,7 @@
 <!-- Twitter / X -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Lab to Sales — Training for Scientists in Commercial Roles">
-<meta name="twitter:description" content="A simple, question-based training for scientists and technical people in their first commercial role. 5 pillars. Two ways to work together.">
+<meta name="twitter:description" content="A simple, question-based training for scientists and technical people in their first commercial role. 5 pillars.">
 <meta name="twitter:image" content="https://lab-to-sales.github.io/offers/og-image.png">
 
 <style>
@@ -32,32 +32,8 @@
 
 <script>
   (function () {
-    var VARIANTS = ['a', 'b', 'c'];
-    var STORAGE_KEY = 'lts_variant';
-
-    // 1) Allow forced override via URL: ?v=a / ?v=b / ?v=c
-    //    Useful for testing or when you want to share a specific variant directly.
-    var params = new URLSearchParams(window.location.search);
-    var forced = params.get('v');
-    if (forced && VARIANTS.indexOf(forced) !== -1) {
-      try { localStorage.setItem(STORAGE_KEY, forced); } catch (e) {}
-      window.location.replace(forced + '.html' + window.location.search.replace(/[?&]v=[abc]/, '').replace(/^&/, '?'));
-      return;
-    }
-
-    // 2) Sticky: if a variant was already assigned, reuse it.
-    var assigned = null;
-    try { assigned = localStorage.getItem(STORAGE_KEY); } catch (e) {}
-
-    if (!assigned || VARIANTS.indexOf(assigned) === -1) {
-      // 3) Equal-weight random assignment for first-time visitors.
-      assigned = VARIANTS[Math.floor(Math.random() * VARIANTS.length)];
-      try { localStorage.setItem(STORAGE_KEY, assigned); } catch (e) {}
-    }
-
-    // 4) Preserve any UTM or other query params on redirect.
     var qs = window.location.search;
-    window.location.replace(assigned + '.html' + qs);
+    window.location.replace('a.html' + qs);
   })();
 </script>
 </head>
